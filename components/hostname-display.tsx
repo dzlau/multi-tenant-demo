@@ -1,7 +1,7 @@
-export default function HostnameDisplay({ domain }: { domain: string }) {
+export default function HostnameDisplay({ hostId }: { hostId: string }) {
     return (
         <div>
-            <h1>{domain}</h1>
+            <h1> This is the host id:{hostId}</h1>
         </div>
     );
 }

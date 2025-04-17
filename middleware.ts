@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
+import { get } from '@vercel/edge-config';
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     console.log('Middleware triggered')
-    console.log(process.env.VERCEL_URL)
-    console.log(new URL(`/${request.nextUrl.hostname}`, process.env.VERCEL_URL))
-    return NextResponse.rewrite(new URL(`/${request.nextUrl.hostname}`, process.env.VERCEL_URL))
+    const hostname = request.nextUrl.hostname.replace('.', '-')
+    const hostID = await get(request.nextUrl.hostname);
+    console.log('Host ID:', hostID)
+    return NextResponse.rewrite(new URL(`/${hostID}`, process.env.VERCEL_URL))
 }
 
 // See "Matching Paths" below to learn more
