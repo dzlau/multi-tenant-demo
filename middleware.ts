@@ -5,6 +5,7 @@ import { get } from '@vercel/edge-config';
 export async function middleware(request: NextRequest) {
     console.log('Middleware triggered')
     const hostname = request.nextUrl.hostname.replace('.', '-')
+    console.log('Host name:', hostname)
     const hostID = await get(request.nextUrl.hostname);
     console.log('Host ID:', hostID)
     return NextResponse.rewrite(new URL(`/${hostID}`, process.env.VERCEL_URL))
