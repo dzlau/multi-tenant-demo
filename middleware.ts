@@ -8,11 +8,12 @@ export async function middleware(request: NextRequest) {
     console.log('Hostname:', hostname)
     const hostID = await get(hostname);
     console.log('Host ID:', hostID)
-    const baseUrl = process.env.VERCEL_ENV === 'production' ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : `https://${process.env.VERCEL_URL}`
-    return NextResponse.rewrite(new URL(`/${hostID}/${request.nextUrl.pathname}`, baseUrl))
+    request.nextUrl.protocol
+    const baseUrl = process.env.VERCEL_ENV === 'production' ? `${request.nextUrl.protocol}//${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : `${request.nextUrl.protocol}//${process.env.VERCEL_URL}`
+    return NextResponse.rewrite(new URL(`/${hostID}${request.nextUrl.pathname}`, baseUrl))
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: '/',
+    matcher: ['/', '/shop'],
 }
