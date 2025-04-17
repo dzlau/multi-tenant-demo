@@ -9,7 +9,8 @@ export async function middleware(request: NextRequest) {
     const hostID = await get(hostname);
     console.log('Host ID:', hostID)
     console.log(`${process.env.VERCEL_URL}/${hostID}`)
-    return NextResponse.rewrite(new URL(`/${hostID}`, process.env.VERCEL_URL))
+
+    return NextResponse.rewrite(new URL(`/${hostID}`, `https://${process.env.VERCEL_URL}`))
 }
 
 // See "Matching Paths" below to learn more
