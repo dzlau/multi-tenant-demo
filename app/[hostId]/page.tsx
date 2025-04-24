@@ -13,10 +13,11 @@ const STORE_NAMES: any = {
 }
 const getName = (hostId: string) => {
     return STORE_NAMES[hostId[0]] || "Default Store Name"
-
 }
 export default async function Home({ params, }: { params: Promise<{ hostId: string }> }) {
+    // Get hostId from params
     const { hostId } = await params
+    // get storeName from hostID
     const storeName = await getName(hostId)
     return (
         <div className="min-h-screen bg-white">
@@ -290,19 +291,3 @@ export default async function Home({ params, }: { params: Promise<{ hostId: stri
     )
 }
 
-
-
-
-
-
-// import HostnameDisplay from "@/components/hostname-display";
-
-// export default async function DomainSubdomain({ params, }: { params: Promise<{ hostId: string }> }) {
-//     const { hostId } = await params
-//     return (
-//         <div>
-//             <h1>Subdomain</h1>
-//             <HostnameDisplay hostId={hostId} />
-//         </div>
-//     );
-// }
