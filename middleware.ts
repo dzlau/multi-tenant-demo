@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { get } from '@vercel/edge-config';
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { getIdFromHostname } from '@/lib/redis';
 const isOnboardRoute = createRouteMatcher(['/onboard(.*)',])
 const isProtectedRoute = createRouteMatcher(['/dashboard(.*)',])
 export default clerkMiddleware(async (auth, request) => {
     const { userId, sessionClaims, redirectToSignIn } = await auth()
-    // if user is onboarding, dont redirect
-    if (userId && isOnboardRoute(request)) {
-        return NextResponse.next()
-    }
+
     // If the user isn't signed in and the route is private, redirect to sign-in
     if (!userId && isProtectedRoute(request)) return redirectToSignIn({ returnBackUrl: request.url })
 
+    // if user is onboarding or in protected route, dont redirect
+    if (userId && (isOnboardRoute(request) || isProtectedRoute(request))) {
+        return NextResponse.next()
+    }
     // Catch users who do not have `onboardingComplete: true` in their publicMetadata
     // Redirect them to the /onboarding route to complete onboarding
     if (userId && !sessionClaims?.metadata?.onboardingComplete) {
@@ -28,8 +28,8 @@ export default clerkMiddleware(async (auth, request) => {
 
     console.log('Middleware triggered')
     const hostname = request.nextUrl.hostname.replaceAll('.', '-')
-    const hostID = await get(hostname);
-
+    // redis fetch store id for rewrite
+    const hostID = await getIdFromHostname(hostname);
     // no hostID found, no rewrite is required
     if (!hostID) {
         return

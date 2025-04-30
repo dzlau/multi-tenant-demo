@@ -33,7 +33,7 @@ export default function LandingPage() {
             <Link href="/sign-in" className="text-sm font-medium hover:text-purple-600 transition-colors hidden sm:block">
               Log in
             </Link>
-            <Link href="sign-up" passHref>
+            <Link href="sign-in" passHref>
               <Button className="bg-purple-600 hover:bg-purple-700 cursor-pointer ">Get Started</Button>
             </Link>
           </div>

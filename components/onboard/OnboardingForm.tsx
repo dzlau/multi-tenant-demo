@@ -11,28 +11,34 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { CheckCircle2 } from "lucide-react"
 import { FormState } from "react-hook-form"
 import Link from "next/link"
+import { useClerk, useSession } from '@clerk/nextjs'
+
 
 
 export default function OnboardingForm() {
-    const router = useRouter()
     const { pending } = useFormStatus()
     const [showSuccess, setShowSuccess] = useState(false)
-    const initialState: FormState = { errors: {} }
+    const initialState = { errors: {} }
     const [state, formAction] = useFormState(createShop, initialState)
+    const { signOut } = useClerk()
+    const { session } = useSession();
 
+
+    const reloadSession = async () => {
+        console.log('user', session)
+        if (session) {
+            console.log('reload session')
+            await session.reload()
+        }
+    }
     // Handle successful submission
     useEffect(() => {
         if (state.success) {
+            //reload Clerk session
+            reloadSession()
             setShowSuccess(true)
-            console.log(state)
-            // Redirect after success
-            const timeout = setTimeout(() => {
-                router.push("/dashboard")
-            }, 2000)
-
-            return () => clearTimeout(timeout)
         }
-    }, [state.success, router])
+    }, [state.success])
 
     if (showSuccess) {
         return (
@@ -44,9 +50,9 @@ export default function OnboardingForm() {
                         </div>
                         <h2 className="text-2xl font-bold">Setup Complete!</h2>
                         <p className="mt-2 text-gray-500">
-                            Your shop is ready to go! In order to finish the domain process, point the cname of <span className="font-bold">{state.data?.shopUrl}</span> to <span className="font-bold">cname1.vercel.com</span>
+                            Your shop is ready to go! In order to finish the domain process, point the cname of <span className="font-bold">{state.data?.shopUrl}</span> to <span className="font-bold">cname.vercel-dns.com</span> or A record to <span className="font-bold">76.76.21.21</span>
                         </p>
-                        <Link href="/dashboard" className="w-full">
+                        <Link href="/dashboard" className="w-full" passHref>
                             <Button className="mt-4 bg-purple-600 hover:bg-purple-700 w-full">
                                 Got It!
                             </Button>
@@ -83,9 +89,15 @@ export default function OnboardingForm() {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button type="submit" disabled={pending} className="w-full my-2 bg-purple-600 hover:bg-purple-700">
-                        {pending ? "Setting up..." : "Complete Setup"}
-                    </Button>
+                    <div className="flex flex-col w-full items-center justify-center">
+                        <Button type="submit" disabled={pending} className="w-full my-2 bg-purple-600 hover:bg-purple-700">
+                            {pending ? "Setting up..." : "Complete Setup"}
+                        </Button>
+                        <div className="w-full text-right text-sm">
+                            Not you? <span onClick={() => signOut({ redirectUrl: '/' })} className="text-purple-600 cursor-pointer">Logout</span>
+                        </div>
+                    </div>
+
                 </CardFooter>
             </form>
         </Card>

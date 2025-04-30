@@ -1,5 +1,7 @@
 import { PrismaClient } from '@/generated/prisma'
-
+import { Store } from '@/types/store'
+import { User } from '@/types/user'
+import { auth } from '@clerk/nextjs/server'
 const prisma = new PrismaClient()
 
 export async function createUser(user: User) {
@@ -12,22 +14,68 @@ export async function createUser(user: User) {
     })
     console.log(user)
 }
+export async function getCurrentUser() {
+    const { userId } = await auth()
 
-export async function createStore() {
-    const user = await prisma.store.create({
-        data: {
-            name: 'Bob',
-            hostname: 'bob@prisma.io',
+    if (!userId) {
+        return {
+            error: 'User not authenticated'
+        }
+    }
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId,
         },
     })
+    return user
+
 }
 
-// main()
-//     .then(async () => {
-//         await prisma.$disconnect()
-//     })
-//     .catch(async (e) => {
-//         console.error(e)
-//         await prisma.$disconnect()
-//         process.exit(1)
-//     })
+export async function getCurrentUserStore() {
+    const { userId } = await auth()
+    if (!userId) {
+        return
+    }
+    const store = await prisma.store.findFirst({
+        where: {
+            user_id: userId,
+        },
+    }) as Store
+    return store
+}
+export async function getUserById(id: string) {
+    const user = await prisma.user.findUnique({
+        where: {
+            id,
+        },
+    })
+    return user
+}
+
+export async function createStore(store: Store) {
+    const { userId } = await auth()
+
+    if (!userId) {
+        return
+    }
+    const newStore = await prisma.store.create({
+        data: {
+            name: store.name,
+            hostname: store.hostname,
+            is_verified: store.is_verified,
+            user_id: userId
+        },
+    })
+    return newStore
+}
+
+export async function checkStoreExists(domain: string) {
+    const store = await prisma.store.findFirst({
+        where: {
+            hostname: domain,
+        },
+    })
+    return store
+}
+
+

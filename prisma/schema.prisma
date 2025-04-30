@@ -18,6 +18,7 @@ model User {
   id String @id
   email String  @unique
   name  String?
+  store Store?
  
 }
 
@@ -26,4 +27,6 @@ model Store {
   name String?
   hostname String?
   is_verified Boolean @default(false)
+  user User? @relation(fields:[user_id], references:[id]) 
+  user_id String? @unique
 }

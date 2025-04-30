@@ -3,7 +3,7 @@ import { createUser } from "@/db/db"
 import { User } from "@/types/user"
 export async function POST(req: Request) {
     try {
-        const evt = await verifyWebhook(req)
+        const evt = await verifyWebhook(req as any) // Type cast to fix type error
         if (evt.type === 'user.created') {
             const { id, first_name, last_name, email_addresses } = evt.data
             const user: User = {
@@ -12,8 +12,6 @@ export async function POST(req: Request) {
                 email: email_addresses[0].email_address,
             }
             await createUser(user)
-            console.log('User created:', user)
-
         }
 
         console.log('Webhook payload:', evt.data)

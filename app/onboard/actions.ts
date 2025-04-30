@@ -1,5 +1,9 @@
 "use server"
 
+import { checkStoreExists, createStore } from "@/db/db";
+import { updateClerkOnboardingMetadata } from "@/lib/clerk";
+import { addDomainToProject } from "@/lib/vercel";
+import { addDomainToRedis } from "@/lib/redis";
 import { z } from "zod"
 const hostnameRegex = /^(?=.{1,253}$)([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
 // Form validation schema
@@ -24,6 +28,7 @@ export type FormState = {
 }
 
 export async function createShop(prevState: FormState, formData: FormData): Promise<FormState> {
+
     // Validate form data
     const validatedFields = formSchema.safeParse({
         shopName: formData.get("shopName"),
@@ -38,13 +43,44 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
     }
 
     const { shopName, shopUrl } = validatedFields.data
+    // Check if store already exists
+
+
 
     try {
-        // Simulate API call or database operation
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        // Check to see if store with that hostname already exists
+        const existingStore = await checkStoreExists(shopUrl)
+        if (existingStore) {
+            return {
+                errors: {
+                    shopUrl: ["This hostname is in use please choose another"],
+                },
+            }
+        }
+
+        // create new store
+        const newStore = await createStore({
+            name: shopName,
+            hostname: shopUrl,
+            is_verified: false,
+        })
+
+        if (!newStore) {
+            return {
+                errors: {
+                    shopUrl: ["Failed to create shop. Please try again."],
+                },
+            }
+        }
 
         console.log("Shop created:", { shopName, shopUrl })
-
+        // Add domain to vercel
+        await addDomainToProject(shopUrl)
+        // add domain and id to edge config
+        await addDomainToRedis(shopUrl, newStore.id)
+        // set onboard complete to true in Clerk
+        updateClerkOnboardingMetadata(true)
+        //create domain record in vercel
         // Return success state
         return {
             data: {
