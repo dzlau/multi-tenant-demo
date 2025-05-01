@@ -56,8 +56,10 @@ export async function createStore(store: Store) {
     const { userId } = await auth()
 
     if (!userId) {
+        console.log('User not authenticated')
         return
     }
+    console.log('Creating store for user:', userId)
     const newStore = await prisma.store.create({
         data: {
             name: store.name,
@@ -66,6 +68,7 @@ export async function createStore(store: Store) {
             user_id: userId
         },
     })
+    console.log('Store created:', newStore)
     return newStore
 }
 
