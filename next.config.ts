@@ -9,9 +9,7 @@ const nextConfig = {
     return config
   },
   // Optionally, if you're using environment variables in your project
-  env: {
-    DATABASE_URL: process.env.DATABASE_URL,
-  },
+
 }
 
 module.exports = nextConfig
