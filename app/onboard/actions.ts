@@ -45,7 +45,7 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
     const { shopName, shopUrl } = validatedFields.data
     // Check if store already exists
 
-
+    console.log('checking store', shopName)
 
     try {
         // Check to see if store with that hostname already exists
