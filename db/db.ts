@@ -53,6 +53,7 @@ export async function getUserById(id: string) {
 }
 
 export async function createStore(store: Store) {
+    console.log('Creating store:', store)
     const { userId } = await auth()
 
     if (!userId) {
