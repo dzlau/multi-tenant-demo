@@ -58,6 +58,7 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
             }
         }
 
+        console.log('creating store', shopName)
         // create new store
         const newStore = await createStore({
             name: shopName,
@@ -65,6 +66,7 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
             is_verified: false,
         })
 
+        console.log('store created', newStore)
         if (!newStore) {
             return {
                 errors: {
