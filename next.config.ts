@@ -8,7 +8,6 @@ const nextConfig = {
     }
     return config
   },
-  // Optionally, if you're using environment variables in your project
 
 }
 

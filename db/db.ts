@@ -75,6 +75,7 @@ export async function createStore(store: Store) {
 
 export async function checkStoreExists(domain: string) {
     console.log('Checking if store exists for domain:', domain)
+    console.log(process.env.DATABASE_URL)
     try {
         const store = await prisma.store.findFirst({
             where: {
