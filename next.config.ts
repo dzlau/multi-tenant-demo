@@ -1,14 +1,17 @@
-import type { NextConfig } from "next";
-import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin';
-const nextConfig: NextConfig = {
-  /* config options here */
-  webpack: (config, { isServer }) => {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  webpack: (config: any, { isServer }: any) => {
     if (isServer) {
-      config.plugins = [...config.plugins, new PrismaPlugin()];
+      // This ensures that Prisma's query engine binary is included in the server build
+      config.externals = [...config.externals, 'prisma', '@prisma/client']
     }
-
-    return config;
+    return config
   },
-};
+  // Optionally, if you're using environment variables in your project
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL,
+  },
+}
 
-export default nextConfig;
+module.exports = nextConfig
