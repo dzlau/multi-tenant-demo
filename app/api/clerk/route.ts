@@ -1,5 +1,5 @@
 import { verifyWebhook } from '@clerk/nextjs/webhooks'
-import { createUser } from "@/db/db"
+import { createUser } from "@/drizzle/db"
 import { User } from "@/types/user"
 export async function POST(req: Request) {
     try {

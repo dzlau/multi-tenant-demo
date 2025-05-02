@@ -6,7 +6,7 @@ import { SalesChart } from "@/components/dashboard/sales-chart"
 import { RecentSales } from "@/components/dashboard/recent-sales"
 import { TopProducts } from "@/components/dashboard/top-products"
 import { HostnameReminder } from "@/components/dashboard/hostname-reminder"
-import { getCurrentUserStore } from "@/db/db"
+import { getCurrentUserStore } from "@/drizzle/db"
 import { Store } from "@/types/store"
 import { redirect } from "next/navigation"
 export default async function DashboardPage() {

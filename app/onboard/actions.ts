@@ -1,6 +1,6 @@
 "use server"
 
-import { checkStoreExists, createStore } from "@/db/db";
+import { checkStoreExists, createStore } from "@/drizzle/db";
 import { updateClerkOnboardingMetadata } from "@/lib/clerk";
 import { addDomainToProject } from "@/lib/vercel";
 import { addDomainToRedis } from "@/lib/redis";
