@@ -10,7 +10,9 @@ export async function addDomainToRedis(domain: string, shopId: number) {
 }
 
 export async function getIdFromHostname(hostname: string) {
+    console.log('hostname', hostname)
     const shopId = await redis.get(hostname)
+    console.log('shopId', shopId)
     return shopId
 }
 
