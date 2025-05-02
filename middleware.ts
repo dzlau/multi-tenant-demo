@@ -6,6 +6,7 @@ const isProtectedRoute = createRouteMatcher(['/dashboard(.*)',])
 export default clerkMiddleware(async (auth, request) => {
     // if user is on production url, we need to check auth and make sure redirect is correct
     console.log('request.nextUrl.hostname', request.nextUrl.hostname)
+    console.log('process.env.VERCEL_PROJECT_PRODUCTION_URL', process.env.VERCEL_PROJECT_PRODUCTION_URL)
     if (process.env.VERCEL_PROJECT_PRODUCTION_URL === request.nextUrl.hostname) {
         const { userId, sessionClaims, redirectToSignIn } = await auth()
 
