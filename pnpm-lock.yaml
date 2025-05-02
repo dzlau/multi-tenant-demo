@@ -11,15 +11,6 @@ importers:
       '@clerk/nextjs':
         specifier: ^6.17.0
         version: 6.17.0(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(svix@1.64.1)
-      '@neondatabase/serverless':
-        specifier: ^1.0.0
-        version: 1.0.0
-      '@prisma/client':
-        specifier: 6.6.0
-        version: 6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3)
-      '@prisma/nextjs-monorepo-workaround-plugin':
-        specifier: ^6.7.0
-        version: 6.7.0
       '@radix-ui/react-avatar':
         specifier: ^1.1.7
         version: 1.1.7(@types/react-dom@19.1.2(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -58,7 +49,7 @@ importers:
         version: 2.1.1
       drizzle-orm:
         specifier: ^0.43.1
-        version: 0.43.1(@neondatabase/serverless@1.0.0)(@prisma/client@6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3))(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5)(prisma@6.6.0(typescript@5.8.3))
+        version: 0.43.1(@neondatabase/serverless@1.0.0)(@prisma/client@6.6.0(typescript@5.8.3))(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5)
       lucide-react:
         specifier: ^0.503.0
         version: 0.503.0(react@19.1.0)
@@ -71,9 +62,6 @@ importers:
       postgres:
         specifier: ^3.4.5
         version: 3.4.5
-      prisma:
-        specifier: ^6.6.0
-        version: 6.6.0(typescript@5.8.3)
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -661,27 +649,6 @@ packages:
         optional: true
       typescript:
         optional: true
-
-  '@prisma/config@6.6.0':
-    resolution: {integrity: sha512-d8FlXRHsx72RbN8nA2QCRORNv5AcUnPXgtPvwhXmYkQSMF/j9cKaJg+9VcUzBRXGy9QBckNzEQDEJZdEOZ+ubA==}
-
-  '@prisma/debug@6.6.0':
-    resolution: {integrity: sha512-DL6n4IKlW5k2LEXzpN60SQ1kP/F6fqaCgU/McgaYsxSf43GZ8lwtmXLke9efS+L1uGmrhtBUP4npV/QKF8s2ZQ==}
-
-  '@prisma/engines-version@6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a':
-    resolution: {integrity: sha512-JzRaQ5Em1fuEcbR3nUsMNYaIYrOT1iMheenjCvzZblJcjv/3JIuxXN7RCNT5i6lRkLodW5ojCGhR7n5yvnNKrw==}
-
-  '@prisma/engines@6.6.0':
-    resolution: {integrity: sha512-nC0IV4NHh7500cozD1fBoTwTD1ydJERndreIjpZr/S3mno3P6tm8qnXmIND5SwUkibNeSJMpgl4gAnlqJ/gVlg==}
-
-  '@prisma/fetch-engine@6.6.0':
-    resolution: {integrity: sha512-Ohfo8gKp05LFLZaBlPUApM0M7k43a0jmo86YY35u1/4t+vuQH9mRGU7jGwVzGFY3v+9edeb/cowb1oG4buM1yw==}
-
-  '@prisma/get-platform@6.6.0':
-    resolution: {integrity: sha512-3qCwmnT4Jh5WCGUrkWcc6VZaw0JY7eWN175/pcb5Z6FiLZZ3ygY93UX0WuV41bG51a6JN/oBH0uywJ90Y+V5eA==}
-
-  '@prisma/nextjs-monorepo-workaround-plugin@6.7.0':
-    resolution: {integrity: sha512-5rrgAAxhlmfZXNBkaussmCZe8y86L38B6QCbRgBIO/AaI4EkO+2OJolztpbAp+YRr9sOSPj4geinUVZol1drfg==}
 
   '@radix-ui/primitive@1.1.2':
     resolution: {integrity: sha512-XnbHrrprsNqZKQhStrSwgRUQzoCI1glLzdw79xiZPoofhGICeZRSQ3dIxAKH1gb3OHfNf4d6f+vAv3kil2eggA==}
@@ -1449,11 +1416,6 @@ packages:
   fast-sha256@1.3.0:
     resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
 
-  fsevents@2.3.3:
-    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
-    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os: [darwin]
-
   get-nonce@1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
     engines: {node: '>=6'}
@@ -1707,16 +1669,6 @@ packages:
   postgres@3.4.5:
     resolution: {integrity: sha512-cDWgoah1Gez9rN3H4165peY9qfpEo+SA61oQv65O3cRUE1pOEoJWwddwcqKE8XZYjbblOJlYDlLV4h67HrEVDg==}
     engines: {node: '>=12'}
-
-  prisma@6.6.0:
-    resolution: {integrity: sha512-SYCUykz+1cnl6Ugd8VUvtTQq5+j1Q7C0CtzKPjQ8JyA2ALh0EEJkMCS+KgdnvKW1lrxjtjCyJSHOOT236mENYg==}
-    engines: {node: '>=18.18'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=5.1.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
@@ -2277,6 +2229,7 @@ snapshots:
     dependencies:
       '@types/node': 22.15.0
       '@types/pg': 8.11.14
+    optional: true
 
   '@next/env@15.3.0': {}
 
@@ -2304,40 +2257,10 @@ snapshots:
   '@next/swc-win32-x64-msvc@15.3.0':
     optional: true
 
-  '@prisma/client@6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3)':
+  '@prisma/client@6.6.0(typescript@5.8.3)':
     optionalDependencies:
-      prisma: 6.6.0(typescript@5.8.3)
       typescript: 5.8.3
-
-  '@prisma/config@6.6.0':
-    dependencies:
-      esbuild: 0.25.3
-      esbuild-register: 3.6.0(esbuild@0.25.3)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@prisma/debug@6.6.0': {}
-
-  '@prisma/engines-version@6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a': {}
-
-  '@prisma/engines@6.6.0':
-    dependencies:
-      '@prisma/debug': 6.6.0
-      '@prisma/engines-version': 6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a
-      '@prisma/fetch-engine': 6.6.0
-      '@prisma/get-platform': 6.6.0
-
-  '@prisma/fetch-engine@6.6.0':
-    dependencies:
-      '@prisma/debug': 6.6.0
-      '@prisma/engines-version': 6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a
-      '@prisma/get-platform': 6.6.0
-
-  '@prisma/get-platform@6.6.0':
-    dependencies:
-      '@prisma/debug': 6.6.0
-
-  '@prisma/nextjs-monorepo-workaround-plugin@6.7.0': {}
+    optional: true
 
   '@radix-ui/primitive@1.1.2': {}
 
@@ -2927,14 +2850,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.43.1(@neondatabase/serverless@1.0.0)(@prisma/client@6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3))(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5)(prisma@6.6.0(typescript@5.8.3)):
+  drizzle-orm@0.43.1(@neondatabase/serverless@1.0.0)(@prisma/client@6.6.0(typescript@5.8.3))(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5):
     optionalDependencies:
       '@neondatabase/serverless': 1.0.0
-      '@prisma/client': 6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3)
+      '@prisma/client': 6.6.0(typescript@5.8.3)
       '@types/pg': 8.11.14
       pg: 8.15.6
       postgres: 3.4.5
-      prisma: 6.6.0(typescript@5.8.3)
 
   enhanced-resolve@5.18.1:
     dependencies:
@@ -3008,9 +2930,6 @@ snapshots:
   fast-equals@5.2.2: {}
 
   fast-sha256@1.3.0: {}
-
-  fsevents@2.3.3:
-    optional: true
 
   get-nonce@1.0.1: {}
 
@@ -3220,16 +3139,6 @@ snapshots:
   postgres-range@1.1.4: {}
 
   postgres@3.4.5: {}
-
-  prisma@6.6.0(typescript@5.8.3):
-    dependencies:
-      '@prisma/config': 6.6.0
-      '@prisma/engines': 6.6.0
-    optionalDependencies:
-      fsevents: 2.3.3
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - supports-color
 
   prop-types@15.8.1:
     dependencies:

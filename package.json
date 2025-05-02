@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npx prisma migrate deploy && next build",
+    "build": "next build",
     "lint": "next lint",
-    "postinstall": "prisma generate",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "db:generate": "drizzle-kit generate:pg",
     "db:push": "drizzle-kit push:pg",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:migrate": "tsx drizzle/migrate.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.17.0",
