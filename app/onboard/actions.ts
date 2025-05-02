@@ -79,7 +79,7 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
         // Add domain to vercel
         await addDomainToProject(shopUrl)
         // add domain and id to edge config
-        await addDomainToRedis(shopUrl, newStore.id)
+        await addDomainToRedis(shopUrl, newStore.id!)
         // set onboard complete to true in Clerk
         updateClerkOnboardingMetadata(true)
         //create domain record in vercel

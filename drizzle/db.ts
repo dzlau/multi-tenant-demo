@@ -63,13 +63,12 @@ export async function createStore(store: Store) {
         console.log('User not authenticated');
         return;
     }
-
     console.log('Creating store for user:', userId);
     const newStore = await db.insert(stores).values({
         name: store.name,
         hostname: store.hostname,
-        isVerified: store.is_verified,
-        userId: userId
+        is_verified: store.is_verified,
+        user_id: userId
     }).returning();
 
     console.log('Store created:', newStore);

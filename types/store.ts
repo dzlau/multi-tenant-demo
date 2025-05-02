@@ -3,6 +3,5 @@ export type Store = {
     name?: string,
     hostname?: string,
     is_verified: boolean,
-    isVerified?: boolean,
     userId?: string
 }
