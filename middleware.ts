@@ -33,8 +33,7 @@ export default clerkMiddleware(async (auth, request) => {
 
 
     console.log('Middleware triggered')
-    const testHost = "test7.dennislau.xyz"
-    const hostID = await getIdFromHostname(testHost);
+    const hostID = await getIdFromHostname(request.nextUrl.hostname);
     // no hostID found, no rewrite is required
     if (!hostID) {
         return
