@@ -33,9 +33,7 @@ export default clerkMiddleware(async (auth, request) => {
 
 
     console.log('Middleware triggered')
-    const hostname = request.nextUrl.hostname.replaceAll('.', '-')
-    // redis fetch store id for rewrite
-    const hostID = await getIdFromHostname(hostname);
+    const hostID = await getIdFromHostname(request.nextUrl.hostname);
     // no hostID found, no rewrite is required
     if (!hostID) {
         return
