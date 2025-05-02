@@ -32,21 +32,18 @@ export default clerkMiddleware(async (auth, request) => {
 
 
 
-    console.log('Middleware triggered')
+    console.log('Getting hostID for hostname', request.nextUrl.hostname)
     const hostID = await getIdFromHostname(request.nextUrl.hostname);
     // no hostID found, no rewrite is required
     if (!hostID) {
         return
     }
-    console.log('hostID', hostID)
     // if production env, utilize production url, if not use preview or dev url
     const baseUrl = process.env.VERCEL_ENV === 'production' ? `${request.nextUrl.protocol}//${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : `${request.nextUrl.protocol}//${process.env.VERCEL_URL}`
-    console.log('baseUrl', baseUrl)
     // if no hostID found, return base route
 
     // prepare pathname to append to rewrite
     const pathname = request.nextUrl.pathname === "/" ? '' : request.nextUrl.pathname
-    console.log('pathname', pathname)
     // Perform rewrite -- this will ensure the url path will not change and user will no see url change or be redirected
     return NextResponse.rewrite(new URL(`/${hostID}${pathname}`, baseUrl))
 
