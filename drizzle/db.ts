@@ -55,15 +55,21 @@ export async function getUserById(id: string) {
     return user;
 }
 
+
+export async function getStore(id: number) {
+    const store = await db.query.stores.findFirst({
+        where: eq(stores.id, id),
+    });
+    return store;
+}
+
 export async function createStore(store: Store) {
-    console.log('Creating store:', store);
     const { userId } = await auth();
 
     if (!userId) {
         console.log('User not authenticated');
         return;
     }
-    console.log('Creating store for user:', userId);
     const newStore = await db.insert(stores).values({
         name: store.name,
         hostname: store.hostname,
@@ -71,7 +77,6 @@ export async function createStore(store: Store) {
         user_id: userId
     }).returning();
 
-    console.log('Store created:', newStore);
     return {
         ...newStore[0],
         is_verified: newStore[0].is_verified

@@ -33,11 +33,11 @@ export default clerkMiddleware(async (auth, request) => {
 
 
     console.log('Getting hostID for hostname', request.nextUrl.hostname)
-    const hostID = await getIdFromHostname(request.nextUrl.hostname);
-    // no hostID found, no rewrite is required
-    if (!hostID) {
+    // if not production, don't rewrite for dev/preview for dev purposes
+    if (process.env.VERCEL_ENV !== 'production') {
         return
     }
+    const hostID = await getIdFromHostname(request.nextUrl.hostname)
     // if production env, utilize production url, if not use preview or dev url
     const baseUrl = process.env.VERCEL_ENV === 'production' ? `${request.nextUrl.protocol}//${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : `${request.nextUrl.protocol}//${process.env.VERCEL_URL}`
     // if no hostID found, return base route
