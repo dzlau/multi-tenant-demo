@@ -8,6 +8,13 @@
       "when": 1746205069974,
       "tag": "0000_confused_christian_walker",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746548524549,
+      "tag": "0001_narrow_black_cat",
+      "breakpoints": true
     }
   ]
 }
