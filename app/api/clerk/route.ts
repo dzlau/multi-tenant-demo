@@ -11,6 +11,7 @@ export async function POST(req: Request) {
                 id: id,
                 name: evt.data.first_name + ' ' + evt.data.last_name,
                 email: email_addresses[0].email_address,
+                is_stripe_onboarded: false,
             }
             await createUser(user)
             //create stripe account
