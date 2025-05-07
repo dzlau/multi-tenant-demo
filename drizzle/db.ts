@@ -15,13 +15,19 @@ export async function createUser(user: User) {
     return newUser[0];
 }
 
+export async function updateUser(userId: string, data: Partial<User>) {
+    const updatedUser = await db.update(users)
+        .set(data)
+        .where(eq(users.id, userId))
+        .returning();
+    return updatedUser[0];
+}
+
 export async function getCurrentUser() {
     const { userId } = await auth();
 
     if (!userId) {
-        return {
-            error: 'User not authenticated'
-        };
+        throw new Error('User not authenticated');
     }
 
     const user = await db.query.users.findFirst({
@@ -54,6 +60,7 @@ export async function getUserById(id: string) {
     });
     return user;
 }
+
 
 
 export async function getStore(id: number) {

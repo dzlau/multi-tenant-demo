@@ -5,6 +5,8 @@ export const users = pgTable('users', {
     email: text('email').notNull().unique(),
     name: text('name'),
     date_created: timestamp('date_created').defaultNow(),
+    stripe_account_id: text('stripe_account_id'),
+    is_stripe_onboarded: boolean('is_stripe_onboarded').default(false),
 });
 
 export const stores = pgTable('stores', {

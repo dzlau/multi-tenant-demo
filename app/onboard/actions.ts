@@ -1,10 +1,12 @@
 "use server"
 
-import { checkStoreExists, createStore } from "@/drizzle/db";
+import { checkStoreExists, createStore, getCurrentUser } from "@/drizzle/db";
 import { updateClerkOnboardingMetadata } from "@/lib/clerk";
 import { addDomainToProject } from "@/lib/vercel";
 import { addDomainToRedis } from "@/lib/redis";
 import { z } from "zod"
+import { createStripeAccountLink, updateStripeAccountNameAndUrl } from "@/lib/stripe";
+import { redirect } from "next/navigation";
 const hostnameRegex = /^(?=.{1,253}$)([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
 // Form validation schema
 const formSchema = z.object({
@@ -28,7 +30,7 @@ export type FormState = {
 }
 
 export async function createShop(prevState: FormState, formData: FormData): Promise<FormState> {
-
+    let accountLinkUrl: string =""
     // Validate form data
     const validatedFields = formSchema.safeParse({
         shopName: formData.get("shopName"),
@@ -81,16 +83,12 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
         // add domain and id to edge config
         await addDomainToRedis(shopUrl, newStore.id!)
         // set onboard complete to true in Clerk
-        updateClerkOnboardingMetadata(true)
-        //create domain record in vercel
-        // Return success state
-        return {
-            data: {
-                shopName,
-                shopUrl,
-            },
-            success: true,
-        }
+        await updateClerkOnboardingMetadata(true)
+        // update stripe account name and url
+        await updateStripeAccountNameAndUrl(shopName,shopUrl)
+        //redirect to stripe onboarding
+        const accountLink = await createStripeAccountLink()
+        accountLinkUrl = accountLink.url
     } catch (error) {
         // Return error if submission fails
         return {
@@ -99,4 +97,6 @@ export async function createShop(prevState: FormState, formData: FormData): Prom
             },
         }
     }
+    console.log('accountLinkUrl', accountLinkUrl)
+    return redirect(accountLinkUrl)
 }

@@ -1,6 +1,7 @@
 import { verifyWebhook } from '@clerk/nextjs/webhooks'
-import { createUser } from "@/drizzle/db"
+import { createUser, updateUser } from "@/drizzle/db"
 import { User } from "@/types/user"
+import { createStripeAccount } from '@/lib/stripe'
 export async function POST(req: Request) {
     try {
         const evt = await verifyWebhook(req as any) // Type cast to fix type error
@@ -12,6 +13,9 @@ export async function POST(req: Request) {
                 email: email_addresses[0].email_address,
             }
             await createUser(user)
+            //create stripe account
+            const stripeAccount = await createStripeAccount(user)
+            await updateUser(user.id, { stripe_account_id: stripeAccount.id })
         }
 
         console.log('Webhook payload:', evt.data)

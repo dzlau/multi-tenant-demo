@@ -17,51 +17,52 @@ import { useClerk, useSession } from '@clerk/nextjs'
 
 export default function OnboardingForm() {
     const { pending } = useFormStatus()
-    const [showSuccess, setShowSuccess] = useState(false)
+    // const [showSuccess, setShowSuccess] = useState(false)
     const initialState = { errors: {} }
     const [state, formAction] = useFormState(createShop, initialState)
     const { signOut } = useClerk()
     const { session } = useSession();
 
 
-    const reloadSession = async () => {
-        console.log('user', session)
-        if (session) {
-            console.log('reload session')
-            await session.reload()
-        }
-    }
-    // Handle successful submission
-    useEffect(() => {
-        if (state.success) {
-            //reload Clerk session
-            reloadSession()
-            setShowSuccess(true)
-        }
-    }, [state.success])
+    // const reloadSession = async () => {
+    //     console.log('user', session)
+    //     if (session) {
+    //         console.log('reload session')
+    //         await session.reload()
+    //     }
+    // }
+    // // Handle successful submission
+    // useEffect(() => {
+    //     if (state.success) {
+    //         //reload Clerk session
+    //         //create stripe account link
+    //         reloadSession()
+    //         setShowSuccess(true)
+    //     }
+    // }, [state.success])
 
-    if (showSuccess) {
-        return (
-            <Card className="w-full">
-                <CardContent className="pt-6">
-                    <div className="flex flex-col items-center justify-center py-10 text-center">
-                        <div className="mb-4 rounded-full bg-green-100 p-3">
-                            <CheckCircle2 className="h-8 w-8 text-green-600" />
-                        </div>
-                        <h2 className="text-2xl font-bold">Setup Complete!</h2>
-                        <p className="mt-2 text-gray-500">
-                            Your shop is ready to go! In order to finish the domain process, point the cname of <span className="font-bold">{state.data?.shopUrl}</span> to <span className="font-bold">cname.vercel-dns.com</span> or A record to <span className="font-bold">76.76.21.21</span>
-                        </p>
-                        <Link href="/dashboard" className="w-full" passHref>
-                            <Button className="mt-4 bg-purple-600 hover:bg-purple-700 w-full">
-                                Got It!
-                            </Button>
-                        </Link>
-                    </div>
-                </CardContent>
-            </Card>
-        )
-    }
+    // if (showSuccess) {
+    //     return (
+    //         <Card className="w-full">
+    //             <CardContent className="pt-6">
+    //                 <div className="flex flex-col items-center justify-center py-10 text-center">
+    //                     <div className="mb-4 rounded-full bg-green-100 p-3">
+    //                         <CheckCircle2 className="h-8 w-8 text-green-600" />
+    //                     </div>
+    //                     <h2 className="text-2xl font-bold">Step 2</h2>
+    //                     <p className="mt-2 text-gray-500">
+    //                         Your shop is ready to go! In order to finish the domain process, point the cname of <span className="font-bold">{state.data?.shopUrl}</span> to <span className="font-bold">cname.vercel-dns.com</span> or A record to <span className="font-bold">76.76.21.21</span>
+    //                     </p>
+    //                     <Link href="/dashboard" className="w-full" passHref>
+    //                         <Button className="mt-4 bg-purple-600 hover:bg-purple-700 w-full">
+    //                             Got It!
+    //                         </Button>
+    //                     </Link>
+    //                 </div>
+    //             </CardContent>
+    //         </Card>
+    //     )
+    // }
 
     return (
         <Card className="w-full">
