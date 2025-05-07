@@ -7,6 +7,7 @@ export default clerkMiddleware(async (auth, request) => {
     // if user is on production url, we need to check auth and make sure redirect is correct
     console.log('request.nextUrl.hostname', request.nextUrl.hostname)
     console.log('process.env.VERCEL_PROJECT_PRODUCTION_URL', process.env.VERCEL_PROJECT_PRODUCTION_URL)
+    console.log(process.env.VERCEL_PROJECT_PRODUCTION_URL === request.nextUrl.hostname)
     if (process.env.VERCEL_PROJECT_PRODUCTION_URL === request.nextUrl.hostname) {
         const { userId, sessionClaims, redirectToSignIn } = await auth()
 
@@ -33,8 +34,8 @@ export default clerkMiddleware(async (auth, request) => {
 
 
     console.log('Getting hostID for hostname', request.nextUrl.hostname)
-    // if not production, don't rewrite for dev/preview for dev purposes
-    if (process.env.VERCEL_ENV !== 'production') {
+    // if not production, don't rewrite for dev for dev purposes
+    if (process.env.VERCEL_ENV === 'development') {
         return
     }
     const hostID = await getIdFromHostname(request.nextUrl.hostname)
