@@ -11,8 +11,13 @@ export default clerkMiddleware(async (auth, request) => {
     if (process.env.VERCEL_PROJECT_PRODUCTION_URL === request.nextUrl.hostname) {
         const { userId, sessionClaims, redirectToSignIn } = await auth()
 
-        // If the user isn't signed in and the route is private, redirect to sign-in
-        if (!userId && isProtectedRoute(request)) return redirectToSignIn({ returnBackUrl: request.url })
+        // If the user isn't signed in and the route is private or onboarding, redirect to sign-in
+        if (!userId && (isProtectedRoute(request) || isOnboardRoute(request))) return redirectToSignIn({ returnBackUrl: request.url })
+       
+        //if user is not authenticated, dont redirect 
+        if(!userId){
+            return NextResponse.next() 
+        }
 
         // if user is onboarding or in protected route, dont redirect
         if (userId && (isOnboardRoute(request) || isProtectedRoute(request))) {
@@ -29,6 +34,7 @@ export default clerkMiddleware(async (auth, request) => {
         if (userId && sessionClaims?.metadata?.onboardingComplete && request.nextUrl.pathname === '/') {
             return NextResponse.redirect(new URL('/dashboard', request.url))
         }
+
     }
 
 
