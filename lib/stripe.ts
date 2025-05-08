@@ -23,7 +23,7 @@ export async function createStripeAccount(user: User) {
 }
 
 export async function createStripeAccountLink() {
-    const url = process.env.VERCEL_ENV === "production" ? process.env.VERCEL_PROJECT_PRODUCTION_URL : "http://localhost:3000"
+    const url = process.env.VERCEL_ENV === "production" ? 'https://'+ process.env.VERCEL_PROJECT_PRODUCTION_URL : "http://localhost:3000"
     console.log('url', url)
     const user = await getCurrentUser()
     console.log('user', user)
